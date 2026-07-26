@@ -1,125 +1,488 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
-import AuthLayout from "@/components/AuthLayout";
-import GoogleIcon from "@/components/GoogleIcon";
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="新馬場駅から徒歩4分。母と娘が営む小さな居酒屋「Booze Yu-Ha」。看板のモツ煮と山芋豆腐、ゆっくり流れる夜の時間。" />
+<title>Booze Yu-Ha｜新馬場の居酒屋</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#FBF4E6; --cream2:#F5EAD3;
+    --espresso:#2B1B14; --espresso70:rgba(43,27,20,.70); --espresso60:rgba(43,27,20,.60); --espresso50:rgba(43,27,20,.50); --espresso45:rgba(43,27,20,.45); --espresso40:rgba(43,27,20,.40); --espresso30:rgba(43,27,20,.30);
+    --red:#E63946; --red-d:#d12d3a;
+    --amber:#F4A52A;
+    --teal:#1D4E5F;
+    --white70:rgba(255,255,255,.85); --white50:rgba(251,244,230,.50); --white30:rgba(251,244,230,.30);
+    --serif:"Noto Serif JP","Cormorant Garamond",ui-serif,serif;
+    --sans:"Noto Sans JP",ui-sans-serif,system-ui,sans-serif;
+    --disp:"Cormorant Garamond","Noto Serif JP",ui-serif,serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--espresso);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(230,57,70,.25);color:var(--espresso)}
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+  @media(min-width:1024px){.wrap{padding:0 8vw}}
+  .tluxe{letter-spacing:.22em}
+  .twide{letter-spacing:.1em}
+  .italic{font-style:italic}
+  .serif{font-family:var(--serif)}
+  .disp{font-family:var(--disp)}
+  .balance{text-wrap:balance}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      await base44.auth.loginViaEmailPassword(email, password);
-      window.location.href = "/";
-    } catch (err) {
-      setError(err.message || "Invalid email or password");
-    } finally {
-      setLoading(false);
-    }
-  };
+  .horizon{position:relative;height:1px;width:100%;overflow:hidden;margin-bottom:80px}
+  .horizon i{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(230,57,70,0) 10%,rgba(230,57,70,.55) 50%,rgba(244,165,42,0) 90%,transparent 100%);opacity:0;transition:opacity 1s}
+  .horizon.on i{opacity:1}
 
-  const handleGoogle = () => {
-    base44.auth.loginWithProvider("google", "/");
-  };
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1s cubic-bezier(.22,1,.36,1)}
+  .reveal.on{opacity:1;transform:translateY(0)}
+  .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
 
-  return (
-    <AuthLayout
-      icon={LogIn}
-      title="Welcome back"
-      subtitle="Log in to your account"
-      footer={
-        <>
-          Don't have an account?{" "}
-          <Link to="/register" className="text-primary font-medium hover:underline">
-            Create one
-          </Link>
-        </>
-      }
-    >
-      <Button
-        variant="outline"
-        className="w-full h-12 text-sm font-medium mb-6"
-        onClick={handleGoogle}
-      >
-        <GoogleIcon className="w-5 h-5 mr-2" />
-        Continue with Google
-      </Button>
+  /* Nav */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .5s;padding:24px 0}
+  header.scrolled{background:rgba(251,244,230,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(230,57,70,.1);padding:16px 0;box-shadow:0 4px 30px rgba(230,57,70,.06)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;flex-direction:column;line-height:1}
+  .brand b{font-family:var(--disp);font-size:28px;font-weight:500;letter-spacing:.1em;color:var(--espresso)}
+  .brand small{font-family:var(--disp);font-style:italic;font-size:10px;letter-spacing:.22em;color:var(--red);margin-top:4px}
+  .nav-links{display:none;align-items:center;gap:40px}
+  @media(min-width:768px){.nav-links{display:flex}}
+  .nav-links a{position:relative;font-family:var(--disp);font-size:14px;letter-spacing:.1em;color:var(--espresso70);transition:color .3s}
+  .nav-links a:hover{color:var(--red)}
+  .nav-links a::after{content:"";position:absolute;bottom:-4px;left:0;height:2px;width:0;background:var(--amber);transition:width .5s;border-radius:2px}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{display:none}
+  @media(min-width:640px){.nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;padding:10px 20px;border-radius:999px;font-family:var(--disp);font-size:12px;letter-spacing:.1em;transition:all .3s;min-height:48px}}
+  .nav-cta:hover{background:var(--red-d);transform:scale(1.05)}
+  .menu-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-size:12px;letter-spacing:.1em;color:var(--espresso);background:none;border:0;cursor:pointer}
+  @media(min-width:768px){.menu-btn{display:none}}
 
-      <div className="relative mb-6">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
+  .fullscreen{position:fixed;inset:0;z-index:60;background:var(--cream);opacity:0;visibility:hidden;transition:opacity .7s,visibility .7s;overflow:hidden}
+  .fullscreen.open{opacity:1;visibility:visible}
+  .fullscreen .blob1{position:absolute;top:40px;right:40px;width:160px;height:160px;border-radius:50%;background:rgba(244,165,42,.2);filter:blur(40px)}
+  .fullscreen .blob2{position:absolute;bottom:80px;left:40px;width:208px;height:208px;border-radius:50%;background:rgba(230,57,70,.15);filter:blur(50px)}
+  .fullscreen-in{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:32px;padding:24px}
+  .fs-close{position:absolute;top:24px;right:24px;background:none;border:0;cursor:pointer;color:var(--espresso70);transition:color .3s}
+  .fs-close:hover{color:var(--red)}
+  .fs-close svg{width:28px;height:28px}
+  .fullscreen a.fs-link{display:flex;flex-direction:column;align-items:center;transition:all .5s;opacity:0;transform:translateY(20px)}
+  .fullscreen.open a.fs-link{opacity:1;transform:translateY(0)}
+  .fs-link small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em;color:var(--amber);margin-bottom:4px}
+  .fs-link span{font-family:var(--serif);font-size:32px;color:var(--espresso);transition:color .3s}
+  @media(min-width:768px){.fs-link span{font-size:40px}}
+  .fs-link:hover span{color:var(--red)}
+  .fs-reserve{margin-top:32px;display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;border-radius:999px;padding:16px 32px;font-family:var(--disp);letter-spacing:.1em;transition:all .3s}
+  .fs-reserve:hover{background:var(--red-d)}
+
+  /* Hero */
+  .hero{position:relative;height:100svh;min-height:640px;width:100%;overflow:hidden}
+  .hero-img{position:absolute;inset:0;overflow:hidden}
+  .hero-img img{width:100%;height:100%;object-fit:cover;animation:zoom 18s ease-in-out infinite alternate}
+  @keyframes zoom{from{transform:scale(1.05)}to{transform:scale(1.15)}}
+  .hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(43,27,20,.6),rgba(43,27,20,.3) 50%,var(--cream))}
+  .hero-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:0 24px}
+  .hero-eyebrow{display:inline-block;font-family:var(--disp);font-style:italic;font-size:14px;letter-spacing:.22em;color:var(--amber);margin-bottom:32px;padding:6px 16px;border-radius:999px;background:rgba(230,57,70,.15);backdrop-filter:blur(6px)}
+  @media(min-width:768px){.hero-eyebrow{font-size:16px}}
+  .hero-title{font-family:var(--disp);font-size:15vw;line-height:.95;letter-spacing:.1em;color:#fff}
+  @media(min-width:768px){.hero-title{font-size:11vw}}
+  @media(min-width:1024px){.hero-title{font-size:9rem}}
+  .hero-sub{display:block;font-family:var(--serif);font-weight:300;font-style:italic;color:var(--amber);font-size:8vw;margin-top:8px;letter-spacing:.1em}
+  @media(min-width:768px){.hero-sub{font-size:5vw}}
+  @media(min-width:1024px){.hero-sub{font-size:3rem}}
+  .hero-desc{margin-top:48px;max-width:28rem;font-size:16px;line-height:1.8;color:rgba(255,255,255,.85);text-align:center}
+  @media(min-width:768px){.hero-desc{font-size:18px}}
+  .hero-cta{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:16px}
+  @media(min-width:640px){.hero-cta{flex-direction:row;gap:24px}}
+  .btn-gold{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;padding:16px 32px;min-height:48px;border-radius:999px;font-family:var(--disp);letter-spacing:.1em;transition:all .3s;box-shadow:0 10px 30px rgba(230,57,70,.3)}
+  .btn-gold:hover{background:var(--red-d);transform:scale(1.05)}
+  .btn-ghost{font-family:var(--disp);letter-spacing:.1em;color:var(--espresso);background:rgba(255,255,255,.9);padding:16px 24px;border-radius:999px;transition:all .3s}
+  .btn-ghost:hover{background:#fff}
+  .scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .scroll small{font-family:var(--disp);font-style:italic;font-size:10px;letter-spacing:.22em;color:var(--espresso50)}
+  .scroll svg{width:16px;height:16px;color:var(--red);animation:ripple 2.4s ease-in-out infinite}
+  @keyframes ripple{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(6px);opacity:1}}
+
+  /* Sections */
+  section{position:relative;padding:96px 0}
+  @media(min-width:768px){section{padding:128px 0}}
+  .sec-eyebrow{font-family:var(--disp);font-style:italic;font-size:14px;letter-spacing:.22em;color:var(--red)}
+  .sec-title{margin-top:16px;font-family:var(--serif);font-size:30px;line-height:1.2;color:var(--espresso)}
+  @media(min-width:768px){.sec-title{font-size:48px}}
+  .sec-center{text-align:center;max-width:42rem;margin:0 auto}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:start}
+  @media(min-width:1024px){.about-grid{grid-template-columns:5fr 7fr;gap:64px}}
+  .about-img{position:relative}
+  .about-img .frame{overflow:hidden;border-radius:24px}
+  .about-img img{width:100%;aspect-ratio:3/4;object-fit:cover}
+  .about-badge{position:absolute;bottom:-20px;right:-12px;background:var(--red);color:#fff;padding:16px 24px;border-radius:16px;transform:rotate(3deg);box-shadow:0 12px 30px rgba(43,27,20,.15)}
+  @media(min-width:768px){.about-badge{right:-20px}}
+  .about-badge small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em;color:rgba(255,255,255,.8)}
+  .about-badge b{display:block;font-family:var(--disp);font-size:24px;color:#fff;font-weight:500}
+  .about-text h2{margin-top:16px;font-family:var(--serif);font-size:30px;line-height:1.25;color:var(--espresso)}
+  @media(min-width:768px){.about-text h2{font-size:48px}}
+  .about-text h2 em{color:var(--red);font-weight:400}
+  .about-text p{margin-top:32px;font-size:16px;line-height:1.9;color:var(--espresso70);max-width:36rem}
+  @media(min-width:768px){.about-text p{font-size:18px}}
+  .pillars{margin-top:56px;display:grid;grid-template-columns:1fr;gap:24px}
+  @media(min-width:640px){.pillars{grid-template-columns:repeat(3,1fr);gap:24px}}
+  .pillar{background:rgba(255,255,255,.6);border-radius:16px;padding:24px;border-left:4px solid var(--red)}
+  .pillar.amber{border-left-color:var(--amber)}
+  .pillar.teal{border-left-color:var(--teal)}
+  .pillar small{font-family:var(--disp);font-style:italic;font-size:10px;letter-spacing:.22em}
+  .pillar.red small{color:var(--red)}
+  .pillar.amber small{color:var(--amber)}
+  .pillar.teal small{color:var(--teal)}
+  .pillar h3{margin-top:8px;font-family:var(--serif);font-size:20px;color:var(--espresso)}
+  .pillar p{margin-top:12px;font-size:14px;line-height:1.7;color:var(--espresso60)}
+
+  /* Signature */
+  .signature{background:var(--cream2)}
+  .dishes{margin-top:64px;display:grid;grid-template-columns:1fr;gap:32px}
+  @media(min-width:768px){.dishes{grid-template-columns:1fr 1fr;gap:48px}}
+  .dish{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 10px 40px rgba(43,27,20,.08);transition:box-shadow .5s}
+  .dish:hover{box-shadow:0 18px 60px rgba(230,57,70,.15)}
+  .dish .imgwrap{position:relative;overflow:hidden}
+  .dish img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform 1.6s ease-out}
+  .dish:hover img{transform:scale(1.05)}
+  .dish .tag{position:absolute;top:16px;left:16px;color:#fff;font-size:12px;font-family:var(--disp);letter-spacing:.1em;padding:4px 12px;border-radius:999px}
+  .dish .tag.red{background:var(--red)}
+  .dish .tag.amber{background:var(--amber)}
+  .dish .body{padding:28px}
+  .dish .body small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em}
+  .dish .body small.red{color:var(--red)}
+  .dish .body small.amber{color:var(--amber)}
+  .dish .body h3{margin-top:8px;font-family:var(--serif);font-size:30px;color:var(--espresso)}
+  @media(min-width:768px){.dish .body h3{font-size:36px}}
+  .dish .body .note{margin-top:16px;font-size:14px;line-height:1.85;color:var(--espresso60)}
+  @media(min-width:768px){.dish .body .note{font-size:16px}}
+  .dish .body .pair{display:block;margin-top:16px;font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em}
+  .dish .body .pair.red{color:var(--red)}
+  .dish .body .pair.amber{color:var(--amber)}
+
+  /* Gallery */
+  .gallery-grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:768px){.gallery-grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+  .gitem{position:relative;overflow:hidden;border-radius:16px}
+  .gitem img{width:100%;height:100%;object-fit:cover;transition:transform 1.8s ease-out}
+  .gitem:hover img{transform:scale(1.1)}
+  .gitem.tall{aspect-ratio:1/1}
+  .gitem.wide{aspect-ratio:3/2}
+  @media(min-width:768px){.gitem.wide{grid-column:span 2}}
+
+  /* Access */
+  .access{background:var(--cream2)}
+  .access-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:start}
+  @media(min-width:1024px){.access-grid{grid-template-columns:1fr 1fr;gap:64px}}
+  .info-block{display:flex;gap:16px;margin-bottom:32px}
+  .info-ico{flex-shrink:0;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff}
+  .info-ico svg{width:16px;height:16px}
+  .info-ico.red{background:var(--red)}
+  .info-ico.amber{background:var(--amber)}
+  .info-head{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em;margin-bottom:8px}
+  .info-head.red{color:var(--red)}
+  .info-head.amber{color:var(--amber)}
+  .info-block p{font-size:16px;line-height:1.7;color:var(--espresso70)}
+  @media(min-width:768px){.info-block p{font-size:18px}}
+  .tel{font-family:var(--disp);font-size:24px;color:var(--red);transition:color .3s}
+  .tel:hover{color:var(--red-d)}
+  .tel-sub{display:block;margin-top:4px;font-size:14px;color:var(--espresso50)}
+  .hours-card{background:#fff;border-radius:24px;padding:32px;box-shadow:0 10px 40px rgba(43,27,20,.06)}
+  .hours-head{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em;color:var(--amber)}
+  .hours-title{margin-top:8px;margin-bottom:24px;font-family:var(--serif);font-size:24px;color:var(--espresso)}
+  .sched{list-style:none}
+  .sched li{display:flex;flex-direction:column;gap:4px;padding:16px 0;border-bottom:1px solid rgba(43,27,20,.05)}
+  @media(min-width:640px){.sched li{flex-direction:row;align-items:baseline;justify-content:space-between}}
+  .sched .day{font-family:var(--serif);font-size:16px;color:var(--espresso);width:176px;flex-shrink:0}
+  .sched .hrs{font-size:14px;color:var(--espresso70)}
+  @media(min-width:768px){.sched .hrs{font-size:16px}}
+  .sched .hrs.closed{color:var(--red);font-weight:500}
+  .sched .hrs .lo{display:block;font-size:12px;color:var(--espresso40);margin-top:4px}
+  .access-note{margin-top:24px;font-size:12px;line-height:1.7;color:var(--espresso45)}
+  .map{margin-top:48px;overflow:hidden;border-radius:24px;border:1px solid rgba(43,27,20,.05);box-shadow:0 10px 40px rgba(43,27,20,.1)}
+  .map iframe{width:100%;height:320px;border:0;filter:grayscale(.3) sepia(.15) saturate(1.2)}
+  @media(min-width:768px){.map iframe{height:420px}}
+
+  /* Footer */
+  footer{background:var(--espresso);padding:80px 0 48px;position:relative;overflow:hidden}
+  footer .blob1{position:absolute;top:0;right:0;width:256px;height:256px;border-radius:50%;background:rgba(230,57,70,.1);filter:blur(50px)}
+  footer .blob2{position:absolute;bottom:0;left:0;width:288px;height:288px;border-radius:50%;background:rgba(244,165,42,.1);filter:blur(50px)}
+  .foot-grid{position:relative;display:grid;grid-template-columns:1fr;gap:48px}
+  @media(min-width:768px){.foot-grid{grid-template-columns:2fr 1fr;gap:32px}}
+  .foot-brand b{font-family:var(--disp);font-size:30px;letter-spacing:.1em;color:var(--cream);font-weight:500}
+  .foot-brand small{display:block;margin-top:8px;font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em;color:var(--amber)}
+  .foot-brand p{margin-top:24px;font-size:14px;line-height:1.7;color:rgba(251,244,230,.5);max-width:28rem}
+  .foot-info{font-size:14px;color:rgba(251,244,230,.6);line-height:1.7}
+  .foot-info a{display:inline-flex;align-items:center;gap:8px;color:var(--amber);transition:color .3s;margin-top:16px}
+  .foot-info a:hover{color:var(--red)}
+  .foot-info a svg{width:14px;height:14px}
+  .foot-bottom{position:relative;margin-top:64px;padding-top:32px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;gap:16px}
+  @media(min-width:640px){.foot-bottom{flex-direction:row;justify-content:space-between}}
+  .foot-bottom p{font-size:12px;color:var(--white30)}
+  .foot-bottom .loc{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.22em;color:var(--white30)}
+
+  svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+
+<header id="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">
+      <b>Booze Yu-Ha</b>
+      <small>shinbanba · izakaya</small>
+    </a>
+    <nav class="nav-links">
+      <a href="#about">約</a>
+      <a href="#signature">看板料理</a>
+      <a href="#gallery">画廊</a>
+      <a href="#access">店铺情報</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="tel:09095453794" class="nav-cta">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        予約する
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="メニュー">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="fullscreen" id="fullscreen">
+  <div class="blob1"></div><div class="blob2"></div>
+  <div class="fullscreen-in">
+    <button class="fs-close" id="fsClose" aria-label="閉じる">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="#about" class="fs-link" style="transition-delay:120ms"><small>ABOUT</small><span>約</span></a>
+    <a href="#signature" class="fs-link" style="transition-delay:200ms"><small>SIGNATURE</small><span>看板料理</span></a>
+    <a href="#gallery" class="fs-link" style="transition-delay:280ms"><small>GALLERY</small><span>画廊</span></a>
+    <a href="#access" class="fs-link" style="transition-delay:360ms"><small>ACCESS</small><span>店铺情報</span></a>
+    <a href="tel:09095453794" class="fs-reserve" style="transition-delay:440ms">
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      予約する
+    </a>
+  </div>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-img">
+    <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/9a98c0482_generated_30f8ed65.png" alt="Booze Yu-Ha の店先" />
+  </div>
+  <div class="hero-in">
+    <span class="hero-eyebrow">新馬場 · 品川</span>
+    <h1 class="hero-title">Booze
+      <span class="hero-sub">母と娘の、小さな居酒屋</span>
+    </h1>
+    <p class="hero-desc balance">新馬場駅から徒歩四分、路地裏に灯る一軒。じっくり煮込んだモツ煮と、ふんわり山芋豆腐。一人でも、仲間とでも、ゆっくり流れる夜を。</p>
+    <div class="hero-cta">
+      <a href="tel:09095453794" class="btn-gold">予約する</a>
+      <a href="#about" class="btn-ghost">お店について</a>
+    </div>
+  </div>
+  <div class="scroll">
+    <small>scroll</small>
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div class="about-grid">
+      <div class="about-img reveal">
+        <div class="frame">
+          <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/74bbf91ad_generated_fbd18877.png" alt="カウンターの内観" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-3 text-muted-foreground">or</span>
+        <div class="about-badge">
+          <small>since</small>
+          <b>新馬場</b>
         </div>
       </div>
+      <div class="about-text">
+        <span class="sec-eyebrow italic">about</span>
+        <h2 class="balance">ふたりで営む、<br><em>灯りのある居酒屋</em></h2>
+        <p>新馬場の路地裏、のれんをくぐるとそこにはもう、夜が始まっています。お母さんが厨房に立ち、娘がお席へ。どの料理も手作りで、どのグラスも心を込めて。一人飲みでも、仲間との宴でも、ここでは時間がゆっくり流れていきます。</p>
+        <div class="pillars">
+          <div class="pillar red reveal rd1">
+            <small>RUN BY TWO</small>
+            <h3>母と娘</h3>
+            <p>お母さんと娘のふたりで、ひとつひとつ手塩にかけた料理とお酒を。</p>
+          </div>
+          <div class="pillar amber reveal rd2">
+            <small>FIFTEEN SEATS</small>
+            <h3>十五の席</h3>
+            <p>カウンター三席、四人掛けテーブル三卓。肩の寄り合う、小さな空間。</p>
+          </div>
+          <div class="pillar teal reveal rd3">
+            <small>SLOW EVENINGS</small>
+            <h3>ゆるやかな夜</h3>
+            <p>十八時から二十四時まで。仕事帰りに、ふらりと立ち寄る灯り。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      {error && (
-        <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-          {error}
+<section id="signature" class="signature">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div class="sec-center reveal">
+      <span class="sec-eyebrow italic">signature</span>
+      <h2 class="sec-title">看板の二品</h2>
+      <p style="margin-top:24px;font-size:18px;line-height:1.7;color:var(--espresso70)">お母さんが手塩にかけて、仕込む二品。何度食べても、ふらっと帰ってくる味。</p>
+    </div>
+    <div class="dishes">
+      <article class="dish reveal rd1">
+        <div class="imgwrap">
+          <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/265395370_generated_28c241b9.png" alt="モツ煮" />
+          <span class="tag red">定番</span>
         </div>
-      )}
+        <div class="body">
+          <small class="red">STEWED OFFAL</small>
+          <h3>モツ煮</h3>
+          <p class="note">じっくり時間をかけた、濃厚でまろやかな一鉢。日本酒が進む、Booze Yu-Ha の定番。<span class="pair red">─ 本日の日本酒と</span></p>
+        </div>
+      </article>
+      <article class="dish reveal rd2">
+        <div class="imgwrap">
+          <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/f1b1e1bee_generated_7b3f7539.png" alt="山芋豆腐" />
+          <span class="tag amber">手作り</span>
+        </div>
+        <div class="body">
+          <small class="amber">MOUNTAIN YAM TOFU</small>
+          <h3>山芋豆腐</h3>
+          <p class="note">ふんわり滑らかな山芋を、お店で手作り。口あたり軽やか、風味しっかり。<span class="pair amber">─ 冷酒で、ひとくち</span></p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              autoFocus
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
+<section id="gallery">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:48px" class="reveal">
+      <div>
+        <span class="sec-eyebrow italic">gallery</span>
+        <h2 class="sec-title">店内の、ひとこま</h2>
+      </div>
+      <p style="font-size:14px;line-height:1.7;color:var(--espresso60);max-width:24rem">暖かな灯り、湯気、グラスの結露。想像して、ご来店を。</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gitem wide reveal rd1"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/c26cea6f6_generated_5fe3e34d.png" alt="結露の日本酒グラス" /></div>
+      <div class="gitem tall reveal rd2"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/265395370_generated_28c241b9.png" alt="モツ煮" /></div>
+      <div class="gitem tall reveal rd3"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/74bbf91ad_generated_fbd18877.png" alt="カウンターの灯り" /></div>
+      <div class="gitem wide reveal rd4"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/f1b1e1bee_generated_7b3f7539.png" alt="山芋豆腐" /></div>
+    </div>
+  </div>
+</section>
+
+<section id="access" class="access">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div class="sec-center reveal" style="margin-bottom:64px">
+      <span class="sec-eyebrow italic">access</span>
+      <h2 class="sec-title">店铺情報</h2>
+    </div>
+    <div class="access-grid">
+      <div>
+        <div class="info-block reveal">
+          <div class="info-ico red"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div>
+            <div class="info-head red">住所</div>
+            <p>〒140-0013<br>東京都品川区南品川 1-4-23</p>
           </div>
         </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Password</Label>
-            <Link to="/forgot-password" className="text-xs text-primary hover:underline">
-              Forgot password?
-            </Link>
-          </div>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
+        <div class="info-block reveal rd1">
+          <div class="info-ico amber"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="16" rx="2"/><circle cx="9" cy="15" r="1"/><path d="m8 11 4-4 4 4M12 7v8"/></svg></div>
+          <div>
+            <div class="info-head amber">交通手段</div>
+            <p>新馬場駅（京急本線）より徒歩約4分</p>
           </div>
         </div>
-        <Button type="submit" className="w-full h-12 font-medium" disabled={loading}>
-          {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Logging in...
-            </>
-          ) : (
-            "Log in"
-          )}
-        </Button>
-      </form>
-    </AuthLayout>
-  );
-}
+        <div class="info-block reveal rd2">
+          <div class="info-ico red"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div>
+            <div class="info-head red">予約・お問い合わせ</div>
+            <p><a href="tel:09095453794" class="tel">090-9545-3794</a><span class="tel-sub">予約可能</span></p>
+          </div>
+        </div>
+        <div class="info-block reveal rd3">
+          <div class="info-ico amber"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <div>
+            <div class="info-head amber">お支払い</div>
+            <p>カード（VISA · Master · JCB · AMEX）<br>電子マネー / QR決済（PayPay · d払い · 楽天ペイ · au PAY）</p>
+          </div>
+        </div>
+      </div>
+      <div class="hours-card reveal">
+        <span class="hours-head italic">HOURS</span>
+        <h3 class="hours-title">営業時間</h3>
+        <ul class="sched">
+          <li class="reveal"><span class="day">月・祝前日</span><span class="hrs">18:00 – 24:00<span class="lo">L.O. 料理 23:00 / ドリンク 23:30</span></span></li>
+          <li class="reveal rd1"><span class="day">火・水・木・金</span><span class="hrs">11:00 – 15:00 / 18:00 – 24:00<span class="lo">昼弁当あり · L.O. 23:00</span></span></li>
+          <li class="reveal rd2"><span class="day">土</span><span class="hrs">11:00 – 15:00 / 18:00 – 24:00<span class="lo">昼飲み営業あり</span></span></li>
+          <li class="reveal rd3"><span class="day">日・祝後日</span><span class="hrs closed">定休日</span></li>
+        </ul>
+        <p class="access-note">※ 火～金 11:00～15:00 は弁当販売。土・祝日は昼飲み営業。<br>※ 営業情報は変更される場合がございます。最新はお電話にてご確認ください。</p>
+      </div>
+    </div>
+    <div class="map">
+      <iframe title="Booze Yu-Ha 地図" src="https://www.openstreetmap.org/export/embed.html?bbox=139.742%2C35.615%2C139.747%2C35.618&layer=mapnik&marker=35.6165%2C139.7446" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="blob1"></div><div class="blob2"></div>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>Booze Yu-Ha</b>
+        <small>母と娘の、小さな居酒屋</small>
+        <p>新馬場駅から徒歩四分。ゆっくり流れる夜と、手作りの味。お一人でも、お仲間とでも。</p>
+      </div>
+      <div class="foot-info">
+        〒140-0013<br>東京都品川区南品川 1-4-23
+        <a href="tel:09095453794">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          090-9545-3794
+        </a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="yr"></span> Booze Yu-Ha. All rights reserved.</p>
+      <p class="loc">shinbanba · shinagawa · tokyo</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 60); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+  const fs = document.getElementById('fullscreen');
+  const openMenu = () => { fs.classList.add('open'); document.body.style.overflow='hidden'; };
+  const closeMenu = () => { fs.classList.remove('open'); document.body.style.overflow=''; };
+  document.getElementById('menuBtn').addEventListener('click', openMenu);
+  document.getElementById('fsClose').addEventListener('click', closeMenu);
+  fs.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal, [data-horizon]').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
