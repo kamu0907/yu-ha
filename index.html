@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="新馬場駅から徒歩4分。母と娘が営む小さな居酒屋「Booze Yu-Ha」。看板のモツ煮と山芋豆腐、ゆっくり流れる夜の時間。" />
+<title>Booze Yu-Ha｜新馬場の居酒屋</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0F1A; --bg2:#080C16; --bg3:#060A13;
+    --fg:#F4EBD0; --fg70:rgba(232,223,200,.70); --fg60:rgba(232,223,200,.60); --fg50:rgba(232,223,200,.50); --fg40:rgba(232,223,200,.40); --fg30:rgba(232,223,200,.30);
+    --gold:#C8902E; --gold80:rgba(200,144,46,.80); --gold60:rgba(200,144,46,.60); --gold40:rgba(200,144,46,.40); --gold30:rgba(200,144,46,.30);
+    --serif:"Noto Serif JP","Cormorant Garamond",ui-serif,serif;
+    --sans:"Noto Sans JP",ui-sans-serif,system-ui,sans-serif;
+    --disp:"Cormorant Garamond","Noto Serif JP",ui-serif,serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%;height:auto}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:rgba(200,144,46,.3);color:var(--fg)}
+
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+  @media(min-width:1024px){.wrap{padding:0 12vw}}
+  .tluxe{letter-spacing:.25em}
+  .twide{letter-spacing:.12em}
+  .italic{font-style:italic}
+  .serif{font-family:var(--serif)}
+  .disp{font-family:var(--disp)}
+  .balance{text-wrap:balance}
+
+  /* Horizon line */
+  .horizon{position:relative;height:1px;width:100%;overflow:hidden;margin-bottom:88px}
+  .horizon i{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(200,144,46,0) 10%,rgba(200,144,46,.6) 50%,rgba(200,144,46,0) 90%,transparent 100%);opacity:0;transition:opacity 1s}
+  .horizon.on i{opacity:1}
+
+  /* Reveal */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity 1.1s cubic-bezier(.22,1,.36,1),transform 1.1s cubic-bezier(.22,1,.36,1)}
+  .reveal.on{opacity:1;transform:translateY(0)}
+  .rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}.rd4{transition-delay:.48s}
+
+  /* Grain */
+  .grain{position:absolute;inset:0;pointer-events:none;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* Nav */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .5s;padding:24px 0}
+  header.scrolled{background:rgba(10,15,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05);padding:16px 0}
+  .nav-in{display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;flex-direction:column;line-height:1}
+  .brand b{font-family:var(--disp);font-size:28px;font-weight:500;letter-spacing:.12em;color:var(--fg)}
+  .brand small{font-family:var(--disp);font-style:italic;font-size:10px;letter-spacing:.25em;color:var(--gold80);margin-top:4px}
+  .nav-links{display:none;align-items:center;gap:40px}
+  @media(min-width:768px){.nav-links{display:flex}}
+  .nav-links a{position:relative;font-family:var(--disp);font-size:14px;letter-spacing:.12em;color:var(--fg70);transition:color .3s}
+  .nav-links a:hover{color:var(--fg)}
+  .nav-links a::after{content:"";position:absolute;bottom:-4px;left:0;height:1px;width:0;background:var(--gold);transition:width .5s}
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{display:none}
+  @media(min-width:640px){.nav-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold40);padding:10px 20px;font-family:var(--disp);font-size:12px;letter-spacing:.12em;color:var(--fg);transition:all .3s;min-height:48px}}
+  .nav-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+  .menu-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--disp);font-size:12px;letter-spacing:.12em;color:var(--fg);background:none;border:0;cursor:pointer}
+  @media(min-width:768px){.menu-btn{display:none}}
+
+  /* Fullscreen menu */
+  .fullscreen{position:fixed;inset:0;z-index:60;background:var(--bg);opacity:0;visibility:hidden;transition:opacity .7s,visibility .7s}
+  .fullscreen.open{opacity:1;visibility:visible}
+  .fullscreen-in{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:32px;padding:24px}
+  .fs-close{position:absolute;top:24px;right:24px;background:none;border:0;cursor:pointer;color:var(--fg70);transition:color .3s}
+  .fs-close:hover{color:var(--fg)}
+  .fs-close svg{width:28px;height:28px}
+  .fullscreen a.fs-link{display:flex;flex-direction:column;align-items:center;transition:all .5s;opacity:0;transform:translateY(20px)}
+  .fullscreen.open a.fs-link{opacity:1;transform:translateY(0)}
+  .fs-link small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--gold80);margin-bottom:4px}
+  .fs-link span{font-family:var(--serif);font-size:32px;color:var(--fg);transition:color .3s}
+  @media(min-width:768px){.fs-link span{font-size:40px}}
+  .fs-link:hover span{color:var(--gold)}
+  .fs-reserve{margin-top:32px;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gold);padding:16px 32px;font-family:var(--disp);letter-spacing:.12em;color:var(--fg);transition:all .3s}
+  .fs-reserve:hover{background:var(--gold);color:var(--bg)}
+
+  /* Hero */
+  .hero{position:relative;height:100svh;min-height:640px;width:100%;overflow:hidden}
+  .hero-img{position:absolute;inset:0;overflow:hidden}
+  .hero-img img{width:100%;height:100%;object-fit:cover;animation:zoom 18s ease-in-out infinite alternate}
+  @keyframes zoom{from{transform:scale(1.05)}to{transform:scale(1.15)}}
+  .hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,15,26,.7),rgba(10,15,26,.4) 50%,var(--bg))}
+  .hero-in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:0 24px}
+  .hero-eyebrow{font-family:var(--disp);font-style:italic;font-size:14px;letter-spacing:.25em;color:var(--gold);margin-bottom:32px}
+  @media(min-width:768px){.hero-eyebrow{font-size:16px;margin-bottom:32px}}
+  .hero-title{font-family:var(--disp);font-size:15vw;line-height:.95;letter-spacing:.12em;color:var(--fg);text-shadow:0 0 30px rgba(244,235,208,.25)}
+  @media(min-width:768px){.hero-title{font-size:11vw}}
+  @media(min-width:1024px){.hero-title{font-size:9rem}}
+  .hero-sub{display:block;font-family:var(--serif);font-weight:300;font-style:italic;color:rgba(200,144,46,.9);font-size:8vw;margin-top:8px;letter-spacing:.12em}
+  @media(min-width:768px){.hero-sub{font-size:5vw}}
+  @media(min-width:1024px){.hero-sub{font-size:3rem}}
+  .hero-desc{margin-top:48px;max-width:28rem;font-size:16px;line-height:1.8;color:var(--fg70);text-align:center}
+  @media(min-width:768px){.hero-desc{font-size:18px;margin-top:48px}}
+  .hero-cta{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:16px}
+  @media(min-width:640px){.hero-cta{flex-direction:row;gap:32px}}
+  .btn-gold{display:inline-flex;align-items:center;gap:12px;background:var(--gold);color:var(--bg);padding:16px 32px;min-height:48px;font-family:var(--disp);letter-spacing:.12em;transition:all .3s}
+  .btn-gold:hover{background:#E0A852}
+  .btn-ghost{font-family:var(--disp);letter-spacing:.12em;color:var(--fg70);border-bottom:1px solid rgba(232,223,200,.3);padding-bottom:4px;transition:all .3s}
+  .btn-ghost:hover{color:var(--fg);border-color:var(--gold)}
+  .scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .scroll small{font-family:var(--disp);font-style:italic;font-size:10px;letter-spacing:.25em;color:var(--fg50)}
+  .scroll svg{width:16px;height:16px;color:var(--gold60);animation:ripple 2.4s ease-in-out infinite}
+  @keyframes ripple{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(6px);opacity:1}}
+
+  /* Sections */
+  section{position:relative;padding:96px 0}
+  @media(min-width:768px){section{padding:160px 0}}
+  .sec-eyebrow{font-family:var(--disp);font-style:italic;font-size:14px;letter-spacing:.25em;color:var(--gold)}
+  .sec-title{margin-top:16px;font-family:var(--serif);font-size:30px;line-height:1.2;color:var(--fg)}
+  @media(min-width:768px){.sec-title{font-size:48px}}
+  .sec-center{text-align:center;max-width:42rem;margin:0 auto}
+
+  /* About */
+  .about-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:start}
+  @media(min-width:1024px){.about-grid{grid-template-columns:5fr 7fr;gap:80px}}
+  .about-img{position:relative}
+  .about-img .frame{overflow:hidden}
+  .about-img img{width:100%;aspect-ratio:3/4;object-fit:cover}
+  .about-badge{position:absolute;bottom:-24px;right:-16px;background:var(--bg);padding:16px 24px;border-left:1px solid var(--gold40)}
+  @media(min-width:768px){.about-badge{right:-24px}}
+  .about-badge small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--gold80)}
+  .about-badge b{display:block;font-family:var(--disp);font-size:24px;color:var(--fg);font-weight:500}
+  .about-text h2{margin-top:16px;font-family:var(--serif);font-size:30px;line-height:1.25;color:var(--fg)}
+  @media(min-width:768px){.about-text h2{font-size:48px}}
+  .about-text h2 em{font-family:var(--disp);font-style:italic;color:rgba(200,144,46,.9);font-weight:400}
+  .about-text p{margin-top:32px;font-size:16px;line-height:1.9;color:var(--fg70);max-width:36rem}
+  @media(min-width:768px){.about-text p{font-size:18px}}
+  .pillars{margin-top:56px;display:grid;grid-template-columns:1fr;gap:40px}
+  @media(min-width:640px){.pillars{grid-template-columns:repeat(3,1fr);gap:40px}}
+  .pillar small{font-family:var(--disp);font-style:italic;font-size:10px;letter-spacing:.25em;color:var(--gold60)}
+  .pillar h3{margin-top:8px;font-family:var(--serif);font-size:20px;color:var(--fg)}
+  .pillar p{margin-top:12px;font-size:14px;line-height:1.7;color:var(--fg60)}
+
+  /* Signature */
+  .signature{background:var(--bg2)}
+  .dishes{margin-top:80px;display:grid;grid-template-columns:1fr;gap:40px}
+  @media(min-width:768px){.dishes{grid-template-columns:1fr 1fr;gap:64px}}
+  .dish .imgwrap{position:relative;overflow:hidden}
+  .dish img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform 1.6s ease-out}
+  .dish:hover img{transform:scale(1.05)}
+  .dish .imgwrap::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg2),rgba(8,12,22,.2) 50%,transparent)}
+  .dish .cap{position:absolute;bottom:0;left:0;right:0;padding:32px}
+  .dish .cap small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--gold)}
+  .dish .cap h3{margin-top:8px;font-family:var(--serif);font-size:30px;color:var(--fg)}
+  @media(min-width:768px){.dish .cap h3{font-size:40px}}
+  .dish .note{margin-top:24px;border-left:1px solid var(--gold30);padding-left:20px}
+  .dish .note p{font-size:14px;line-height:1.85;color:var(--fg70)}
+  @media(min-width:768px){.dish .note p{font-size:16px}}
+  .dish .note .pair{display:block;margin-top:16px;font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--gold60)}
+
+  /* Gallery */
+  .gallery-grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:768px){.gallery-grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+  .gitem{position:relative;overflow:hidden}
+  .gitem img{width:100%;height:100%;object-fit:cover;transition:transform 1.8s ease-out}
+  .gitem:hover img{transform:scale(1.1)}
+  .gitem::after{content:"";position:absolute;inset:0;background:rgba(10,15,26,.1);transition:opacity .5s}
+  .gitem:hover::after{opacity:0}
+  .gitem.tall{aspect-ratio:3/4}
+  .gitem.wide{aspect-ratio:3/2}
+  @media(min-width:768px){.gitem.wide{grid-column:span 2}}
+
+  /* Access */
+  .access{background:var(--bg2)}
+  .access-grid{display:grid;grid-template-columns:1fr;gap:48px;align-items:start}
+  @media(min-width:1024px){.access-grid{grid-template-columns:1fr 1fr;gap:80px}}
+  .info-block{margin-bottom:40px}
+  .info-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--gold80)}
+  .info-head svg{width:16px;height:16px}
+  .info-head small{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em}
+  .info-block p{font-size:16px;line-height:1.7;color:var(--fg70)}
+  @media(min-width:768px){.info-block p{font-size:18px}}
+  .tel{font-family:var(--disp);font-size:24px;color:var(--gold);transition:color .3s}
+  .tel:hover{color:#E0A852}
+  .tel-sub{display:block;margin-top:4px;font-size:14px;color:var(--fg50)}
+  .hours-head{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--gold80)}
+  .hours-title{margin-top:8px;margin-bottom:32px;font-family:var(--serif);font-size:24px;color:var(--fg)}
+  .sched{list-style:none}
+  .sched li{display:flex;flex-direction:column;gap:4px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+  @media(min-width:640px){.sched li{flex-direction:row;align-items:baseline;justify-content:space-between}}
+  .sched .day{font-family:var(--serif);font-size:16px;color:var(--fg);width:176px;flex-shrink:0}
+  .sched .hrs{font-size:14px;color:var(--fg70)}
+  @media(min-width:768px){.sched .hrs{font-size:16px}}
+  .sched .hrs.closed{color:var(--gold60)}
+  .sched .hrs .lo{display:block;font-size:12px;color:var(--fg40);margin-top:4px}
+  .access-note{margin-top:24px;font-size:12px;line-height:1.7;color:var(--fg40)}
+  .map{margin-top:64px;overflow:hidden;border:1px solid rgba(255,255,255,.05)}
+  .map iframe{width:100%;height:320px;border:0;filter:invert(.92) hue-rotate(180deg) brightness(.85) contrast(1.1)}
+  @media(min-width:768px){.map iframe{height:420px}}
+
+  /* Footer */
+  footer{background:var(--bg3);padding:80px 0 48px;border-top:1px solid rgba(255,255,255,.05)}
+  .foot-grid{display:grid;grid-template-columns:1fr;gap:48px}
+  @media(min-width:768px){.foot-grid{grid-template-columns:2fr 1fr;gap:32px}}
+  .foot-brand b{font-family:var(--disp);font-size:30px;letter-spacing:.12em;color:var(--fg);font-weight:500}
+  .foot-brand small{display:block;margin-top:8px;font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--gold70)}
+  .foot-brand p{margin-top:24px;font-size:14px;line-height:1.7;color:var(--fg50);max-width:28rem}
+  .foot-info{font-size:14px;color:var(--fg60);line-height:1.7}
+  .foot-info a{display:inline-flex;align-items:center;gap:8px;color:var(--gold);transition:color .3s;margin-top:16px}
+  .foot-info a:hover{color:#E0A852}
+  .foot-info a svg{width:14px;height:14px}
+  .foot-bottom{margin-top:64px;padding-top:32px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;gap:16px}
+  @media(min-width:640px){.foot-bottom{flex-direction:row;justify-content:space-between}}
+  .foot-bottom p{font-size:12px;color:var(--fg30)}
+  .foot-bottom .loc{font-family:var(--disp);font-style:italic;font-size:12px;letter-spacing:.25em;color:var(--fg30)}
+
+  svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header id="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">
+      <b>Booze Yu-Ha</b>
+      <small>shinbanba · izakaya</small>
+    </a>
+    <nav class="nav-links">
+      <a href="#about">約</a>
+      <a href="#signature">看板料理</a>
+      <a href="#gallery">画廊</a>
+      <a href="#access">店铺情報</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="tel:09095453794" class="nav-cta">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        予約 090-9545-3794
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="メニュー">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- FULLSCREEN MENU -->
+<div class="fullscreen" id="fullscreen">
+  <div class="grain"></div>
+  <div class="fullscreen-in">
+    <button class="fs-close" id="fsClose" aria-label="閉じる">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <a href="#about" class="fs-link" style="transition-delay:120ms"><small>ABOUT</small><span>約</span></a>
+    <a href="#signature" class="fs-link" style="transition-delay:200ms"><small>SIGNATURE</small><span>看板料理</span></a>
+    <a href="#gallery" class="fs-link" style="transition-delay:280ms"><small>GALLERY</small><span>画廊</span></a>
+    <a href="#access" class="fs-link" style="transition-delay:360ms"><small>ACCESS</small><span>店铺情報</span></a>
+    <a href="tel:09095453794" class="fs-reserve" style="transition-delay:440ms">
+      <svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      予約する
+    </a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-img">
+    <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/9a98c0482_generated_30f8ed65.png" alt="Booze Yu-Ha の店先、ブルーアワーの宵" />
+  </div>
+  <div class="grain"></div>
+  <div class="hero-in">
+    <span class="hero-eyebrow">新馬場 · 品川</span>
+    <h1 class="hero-title">Booze
+      <span class="hero-sub">母と娘の、小さな居酒屋</span>
+    </h1>
+    <p class="hero-desc balance">新馬場駅から徒歩四分、路地裏に灯る一軒。じっくり煮込んだモツ煮と、ふんわり山芋豆腐。一人でも、仲間とでも、ゆっくり流れる夜を。</p>
+    <div class="hero-cta">
+      <a href="tel:09095453794" class="btn-gold">予約する</a>
+      <a href="#about" class="btn-ghost">お店について</a>
+    </div>
+  </div>
+  <div class="scroll">
+    <small>scroll</small>
+    <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div class="about-grid">
+      <div class="about-img reveal">
+        <div class="frame">
+          <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/74bbf91ad_generated_fbd18877.png" alt="カウンターの内観" />
+        </div>
+        <div class="about-badge">
+          <small>since</small>
+          <b>新馬場</b>
+        </div>
+      </div>
+      <div class="about-text">
+        <span class="sec-eyebrow italic">about</span>
+        <h2 class="balance">ふたりで営む、<br><em>灯りのある居酒屋</em></h2>
+        <p>新馬場の路地裏、のれんをくぐるとそこにはもう、夜が始まっています。お母さんが厨房に立ち、娘がお席へ。どの料理も手作りで、どのグラスも心を込めて。一人飲みでも、仲間との宴でも、ここでは時間がゆっくり流れていきます。</p>
+        <div class="pillars">
+          <div class="pillar reveal rd1">
+            <small>RUN BY TWO</small>
+            <h3>母と娘</h3>
+            <p>お母さんと娘のふたりで、ひとつひとつ手塩にかけた料理とお酒を。</p>
+          </div>
+          <div class="pillar reveal rd2">
+            <small>FIFTEEN SEATS</small>
+            <h3>十五の席</h3>
+            <p>カウンター三席、四人掛けテーブル三卓。肩の寄り合う、小さな空間。</p>
+          </div>
+          <div class="pillar reveal rd3">
+            <small>SLOW EVENINGS</small>
+            <h3>ゆるやかな夜</h3>
+            <p>十八時から二十四時まで。仕事帰りに、ふらりと立ち寄る灯り。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE -->
+<section id="signature" class="signature">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div class="sec-center reveal">
+      <span class="sec-eyebrow italic">signature</span>
+      <h2 class="sec-title">看板の二品</h2>
+      <p style="margin-top:24px;font-size:18px;line-height:1.7;color:var(--fg70)">お母さんが手塩にかけて、仕込む二品。何度食べても、ふらっと帰ってくる味。</p>
+    </div>
+    <div class="dishes">
+      <article class="dish reveal rd1">
+        <div class="imgwrap">
+          <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/265395370_generated_28c241b9.png" alt="モツ煮" />
+          <div class="cap">
+            <small>STEWED OFFAL</small>
+            <h3>モツ煮</h3>
+          </div>
+        </div>
+        <div class="note">
+          <p>じっくり時間をかけた、濃厚でまろやかな一鉢。日本酒が進む、Booze Yu-Ha の定番。<span class="pair">─ 本日の日本酒と</span></p>
+        </div>
+      </article>
+      <article class="dish reveal rd2">
+        <div class="imgwrap">
+          <img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/f1b1e1bee_generated_7b3f7539.png" alt="山芋豆腐" />
+          <div class="cap">
+            <small>MOUNTAIN YAM TOFU</small>
+            <h3>山芋豆腐</h3>
+          </div>
+        </div>
+        <div class="note">
+          <p>ふんわり滑らかな山芋を、お店で手作り。口あたり軽やか、風味しっかり。<span class="pair">─ 冷酒で、ひとくち</span></p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:64px" class="reveal">
+      <div>
+        <span class="sec-eyebrow italic">gallery</span>
+        <h2 class="sec-title">店内の、ひとこま</h2>
+      </div>
+      <p style="font-size:14px;line-height:1.7;color:var(--fg60);max-width:24rem">暖かな灯り、湯気、グラスの結露。想像して、ご来店を。</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gitem wide reveal rd1"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/c26cea6f6_generated_5fe3e34d.png" alt="結露の日本酒グラス" /></div>
+      <div class="gitem tall reveal rd2"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/265395370_generated_28c241b9.png" alt="モツ煮" /></div>
+      <div class="gitem tall reveal rd3"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/74bbf91ad_generated_fbd18877.png" alt="カウンターの灯り" /></div>
+      <div class="gitem wide reveal rd4"><img src="https://media.base44.com/images/public/6a6570abfbbed33c0edde0e5/f1b1e1bee_generated_7b3f7539.png" alt="山芋豆腐" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section id="access" class="access">
+  <div class="wrap">
+    <div class="horizon" data-horizon></div>
+    <div class="sec-center reveal" style="margin-bottom:64px">
+      <span class="sec-eyebrow italic">access</span>
+      <h2 class="sec-title">店铺情報</h2>
+    </div>
+    <div class="access-grid">
+      <div>
+        <div class="info-block reveal">
+          <div class="info-head"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><small>住所</small></div>
+          <p>〒140-0013<br>東京都品川区南品川 1-4-23</p>
+        </div>
+        <div class="info-block reveal rd1">
+          <div class="info-head"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="16" rx="2"/><circle cx="9" cy="15" r="1"/><path d="m8 11 4-4 4 4M12 7v8"/></svg><small>交通手段</small></div>
+          <p>新馬場駅（京急本線）より徒歩約4分</p>
+        </div>
+        <div class="info-block reveal rd2">
+          <div class="info-head"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><small>予約・お問い合わせ</small></div>
+          <p><a href="tel:09095453794" class="tel">090-9545-3794</a><span class="tel-sub">予約可能</span></p>
+        </div>
+        <div class="info-block reveal rd3">
+          <div class="info-head"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><small>お支払い</small></div>
+          <p>カード（VISA · Master · JCB · AMEX）<br>電子マネー / QR決済（PayPay · d払い · 楽天ペイ · au PAY）</p>
+        </div>
+      </div>
+      <div>
+        <span class="hours-head italic">HOURS</span>
+        <h3 class="hours-title">営業時間</h3>
+        <ul class="sched">
+          <li class="reveal"><span class="day">月・祝前日</span><span class="hrs">18:00 – 24:00<span class="lo">L.O. 料理 23:00 / ドリンク 23:30</span></span></li>
+          <li class="reveal rd1"><span class="day">火・水・木・金</span><span class="hrs">11:00 – 15:00 / 18:00 – 24:00<span class="lo">昼弁当あり · L.O. 23:00</span></span></li>
+          <li class="reveal rd2"><span class="day">土</span><span class="hrs">11:00 – 15:00 / 18:00 – 24:00<span class="lo">昼飲み営業あり</span></span></li>
+          <li class="reveal rd3"><span class="day">日・祝後日</span><span class="hrs closed">定休日</span></li>
+        </ul>
+        <p class="access-note">※ 火～金 11:00～15:00 は弁当販売。土・祝日は昼飲み営業。<br>※ 営業情報は変更される場合がございます。最新はお電話にてご確認ください。</p>
+      </div>
+    </div>
+    <div class="map">
+      <iframe title="Booze Yu-Ha 地図" src="https://www.openstreetmap.org/export/embed.html?bbox=139.742%2C35.615%2C139.747%2C35.618&layer=mapnik&marker=35.6165%2C139.7446" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <b>Booze Yu-Ha</b>
+        <small>母と娘の、小さな居酒屋</small>
+        <p>新馬場駅から徒歩四分。ゆっくり流れる夜と、手作りの味。お一人でも、お仲間とでも。</p>
+      </div>
+      <div class="foot-info">
+        〒140-0013<br>東京都品川区南品川 1-4-23
+        <a href="tel:09095453794">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          090-9545-3794
+        </a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="yr"></span> Booze Yu-Ha. All rights reserved.</p>
+      <p class="loc">shinbanba · shinagawa · tokyo</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 60); };
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Fullscreen menu
+  const fs = document.getElementById('fullscreen');
+  const openMenu = () => { fs.classList.add('open'); document.body.style.overflow='hidden'; };
+  const closeMenu = () => { fs.classList.remove('open'); document.body.style.overflow=''; };
+  document.getElementById('menuBtn').addEventListener('click', openMenu);
+  document.getElementById('fsClose').addEventListener('click', closeMenu);
+  fs.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal, [data-horizon]').forEach(el => {
+    el.classList.contains('reveal') || el.hasAttribute('data-horizon') ? io.observe(el) : null;
+    io.observe(el);
+  });
+  document.querySelectorAll('[data-horizon]').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
