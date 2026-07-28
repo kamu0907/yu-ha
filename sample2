@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Booze Yu-Ha（ブーズ ユーハ）| 新馬場の創作居酒屋</title>
+  <meta name="description" content="新馬場・南品川の大衆創作居酒屋 Booze Yu-Ha。名物もつ煮、日替わり定食、キンキンの生ビール。ほっとする一杯と家庭の味をどうぞ。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --background: #f4ecdb;
+      --card: #fdf8ee;
+      --foreground: #3a3226;
+      --muted-fg: #7a6f5c;
+      --primary: #d99a3f;      /* 琥珀 / 生ビール */
+      --primary-dark: #b97e28;
+      --secondary: #a83a26;    /* 暖簾の朱 */
+      --accent: #4f7a56;       /* 瓶の緑 */
+      --border: #ddd0b6;
+      --sans: "Zen Kaku Gothic New", sans-serif;
+      --serif: "Shippori Mincho", serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--background);
+      color: var(--foreground);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    .serif { font-family: var(--serif); }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+    /* ---------- Header ---------- */
+    header { position: sticky; top: 0; z-index: 50; background: rgba(253,248,238,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand img { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--primary); }
+    .brand .name { font-family: var(--serif); font-weight: 800; font-size: 20px; letter-spacing: .04em; }
+    .brand .sub { font-size: 11px; color: var(--muted-fg); letter-spacing: .18em; }
+    .top-actions { display: flex; align-items: center; gap: 14px; }
+    .tel { text-align: right; line-height: 1.2; }
+    .tel .lbl { font-size: 10px; color: var(--muted-fg); letter-spacing: .1em; }
+    .tel .num { font-family: var(--serif); font-weight: 700; font-size: 18px; color: var(--secondary); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; font-weight: 700; padding: 12px 22px; min-height: 44px; transition: transform .15s, background .15s; }
+    .btn-primary { background: var(--primary); color: #3a2c12; box-shadow: 0 6px 18px rgba(217,154,63,.32); }
+    .btn-primary:hover { transform: translateY(-2px); background: var(--primary-dark); }
+    .btn-outline { border: 1.5px solid var(--secondary); color: var(--secondary); background: var(--card); }
+    .btn-outline:hover { transform: translateY(-2px); }
+    nav.tabs { border-top: 1px solid var(--border); overflow-x: auto; }
+    nav.tabs ul { display: flex; gap: 4px; list-style: none; min-width: max-content; }
+    nav.tabs a { display: block; padding: 12px 16px; font-size: 14px; font-weight: 500; color: var(--muted-fg); border-bottom: 2px solid transparent; white-space: nowrap; }
+    nav.tabs a:hover { color: var(--secondary); border-bottom-color: var(--primary); }
+    .hide-desktop { display: none; }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; min-height: 78vh; display: flex; align-items: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; }
+    .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(244,236,219,.97) 0%, rgba(244,236,219,.82) 45%, rgba(244,236,219,.25) 100%); }
+    .hero-inner { position: relative; padding: 64px 0; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; background: var(--card); border: 1px solid var(--border); color: var(--secondary); font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+    .hero h1 { font-family: var(--serif); font-weight: 800; font-size: clamp(34px, 7vw, 60px); line-height: 1.15; margin: 20px 0 8px; letter-spacing: .02em; }
+    .hero h1 .accent { color: var(--secondary); }
+    .hero .en { font-size: 14px; letter-spacing: .3em; color: var(--primary-dark); font-weight: 700; }
+    .hero p { max-width: 30rem; color: #52483a; font-size: 17px; margin-top: 18px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+    /* ---------- Section shared ---------- */
+    section { padding: 72px 0; }
+    .sec-head { text-align: center; margin-bottom: 44px; }
+    .sec-head .en { font-size: 12px; letter-spacing: .3em; color: var(--primary-dark); font-weight: 700; }
+    .sec-head h2 { font-family: var(--serif); font-weight: 800; font-size: clamp(26px, 5vw, 38px); margin-top: 6px; }
+    .sec-head .line { width: 56px; height: 3px; background: var(--primary); margin: 16px auto 0; border-radius: 2px; }
+
+    /* ---------- Lunch highlight ---------- */
+    .lunch { background: var(--secondary); color: #fbeee2; border-radius: 16px; padding: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px; justify-content: space-between; margin-bottom: 44px; }
+    .lunch h3 { font-family: var(--serif); font-size: 24px; font-weight: 800; }
+    .lunch p { font-size: 14px; opacity: .9; margin-top: 4px; }
+    .lunch .price { font-family: var(--serif); font-size: 40px; font-weight: 800; color: #f6c667; line-height: 1; }
+    .lunch .price small { font-size: 15px; color: #fbeee2; }
+
+    /* ---------- Menu ---------- */
+    .dishes { display: grid; gap: 22px; }
+    .dish { display: grid; grid-template-columns: 1fr; background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(217,154,63,.10); }
+    .dish img { width: 100%; height: 220px; object-fit: cover; }
+    .dish-body { padding: 22px; }
+    .dish .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 3px 10px; }
+    .dish h3 { font-family: var(--serif); font-size: 22px; font-weight: 800; margin: 12px 0 6px; }
+    .dish .price { font-family: var(--serif); color: var(--secondary); font-weight: 800; font-size: 20px; }
+    .dish p { color: var(--muted-fg); font-size: 14px; margin-top: 8px; }
+
+    /* ---------- Atmosphere ---------- */
+    #atmosphere { background: #efe4ce; }
+    .photos { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .photo { border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+    .photo img { width: 100%; height: 260px; object-fit: cover; transition: transform .4s; }
+    .photo:hover img { transform: scale(1.05); }
+    .photo span { position: absolute; left: 14px; bottom: 12px; background: rgba(58,50,38,.82); color: #f4ecdb; font-size: 13px; padding: 5px 12px; border-radius: 999px; }
+
+    /* ---------- Availability ---------- */
+    .cal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; max-width: 720px; margin: 0 auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 14px 6px; text-align: center; border-bottom: 1px solid var(--border); font-size: 14px; }
+    thead th { background: #efe4ce; font-weight: 700; }
+    .sat { color: #2f6fb0; }
+    .sun { color: var(--secondary); }
+    .mark-o { color: var(--accent); font-weight: 700; }
+    .mark-t { color: var(--muted-fg); font-size: 12px; }
+    .mark-x { color: var(--secondary); font-weight: 700; }
+    .legend { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 20px; font-size: 13px; color: var(--muted-fg); }
+
+    /* ---------- Store info ---------- */
+    .info-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+    .spec { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .spec th, .spec td { text-align: left; vertical-align: top; padding: 14px 16px; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .spec th { width: 34%; background: #efe4ce; font-weight: 700; color: var(--foreground); }
+    .map { width: 100%; height: 300px; border: 0; border-radius: 12px; }
+
+    /* ---------- Reserve / Footer ---------- */
+    .reserve { background: var(--secondary); color: #fbeee2; text-align: center; }
+    .reserve h2 { font-family: var(--serif); font-size: clamp(26px, 5vw, 36px); font-weight: 800; }
+    .reserve p { opacity: .9; margin: 12px 0 26px; }
+    .reserve .btn-primary { background: var(--primary); color: #3a2c12; }
+    .reserve-cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    footer { background: #2c261d; color: #cdbfa4; padding: 40px 0; text-align: center; font-size: 13px; }
+    footer .brand-f { font-family: var(--serif); font-size: 20px; color: #f4ecdb; font-weight: 800; letter-spacing: .06em; }
+    footer .links { display: flex; gap: 20px; justify-content: center; margin: 16px 0; }
+    footer .links a:hover { color: var(--primary); }
+
+    @media (min-width: 640px) {
+      .photos { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 768px) {
+      .hide-desktop { display: flex; }
+      .dishes { grid-template-columns: repeat(2, 1fr); }
+      .dish { grid-template-columns: 240px 1fr; }
+      .dish img { height: 100%; }
+      .info-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <a class="brand" href="#top">
+          <img src="/logo-mug.png" alt="Booze Yu-Ha ロゴ" />
+          <span>
+            <span class="name">Booze Yu-Ha</span><br />
+            <span class="sub">BOOZE YU-HA / 新馬場</span>
+          </span>
+        </a>
+        <div class="top-actions">
+          <div class="tel hide-desktop">
+            <div class="lbl">ご予約・お問い合わせ</div>
+            <div class="num">090-9545-3794</div>
+          </div>
+          <a class="btn btn-primary" href="#reserve">ご予約</a>
+        </div>
+      </div>
+    </div>
+    <nav class="tabs">
+      <div class="wrap">
+        <ul>
+          <li><a href="#top">ホーム</a></li>
+          <li><a href="#menu">お品書き</a></li>
+          <li><a href="#atmosphere">店内の様子</a></li>
+          <li><a href="#availability">空席状況</a></li>
+          <li><a href="#info">店舗情報</a></li>
+          <li><a href="#reserve">ご予約</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="top">
+    <div class="hero-bg">
+      <img src="/hero-izakaya.png" alt="Booze Yu-Ha の店内" />
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="wrap hero-inner">
+      <span class="badge">2025.11.14 新馬場にオープン</span>
+      <div class="en" style="margin-top:18px;">CREATIVE IZAKAYA</div>
+      <h1>ほっとする一杯と、<br /><span class="accent">家庭の味</span>を。</h1>
+      <p>南品川の路地にある小さな創作居酒屋。名物のもつ煮に、日替わりの定食、キンキンの生ビール。仕事帰りも、昼下がりの一杯も、気取らずどうぞ。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#menu">お品書きを見る</a>
+        <a class="btn btn-outline" href="tel:09095453794">電話で予約する</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section id="menu">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="en">MENU</div>
+        <h2>お品書き</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="lunch">
+        <div>
+          <h3>平日ランチ・お弁当</h3>
+          <p>火〜金 11:00-15:00 ／ ご飯大盛り無料・お弁当のテイクアウトも承ります</p>
+        </div>
+        <div class="price">¥800<small>〜</small></div>
+      </div>
+
+      <div class="dishes">
+        <article class="dish">
+          <img src="/dish-motsu.png" alt="名物もつ煮込み" />
+          <div class="dish-body">
+            <span class="tag">名物</span>
+            <h3>もつ煮込み</h3>
+            <div class="price">¥700</div>
+            <p>じっくり煮込んだ国産もつと大根、こんにゃく。味噌の効いた深い味わいで、ビールにも日本酒にもよく合う一番人気です。</p>
+          </div>
+        </article>
+        <article class="dish">
+          <img src="/dish-shogayaki.png" alt="生姜焼き定食" />
+          <div class="dish-body">
+            <span class="tag">定食</span>
+            <h3>生姜焼き定食</h3>
+            <div class="price">¥800</div>
+            <p>ごはん・味噌汁・小鉢付き。甘辛い生姜だれが食欲をそそる、昼も夜も頼れる定番の一皿です。</p>
+          </div>
+        </article>
+        <article class="dish">
+          <img src="/dish-karaage.png" alt="唐揚げ定食" />
+          <div class="dish-body">
+            <span class="tag">定食</span>
+            <h3>鶏の唐揚げ定食</h3>
+            <div class="price">¥800</div>
+            <p>注文を受けてから揚げる、外はカリッと中はジューシーな唐揚げ。レモンを搾ってどうぞ。</p>
+          </div>
+        </article>
+        <article class="dish">
+          <img src="/dish-beer.png" alt="生ビール" />
+          <div class="dish-body">
+            <span class="tag">ドリンク</span>
+            <h3>キンキンの生ビール</h3>
+            <div class="price">¥550</div>
+            <p>まずは一杯。きめ細かい泡ととびきりの冷たさで、一日の締めくくりに。ハイボールや酎ハイも各種ご用意。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Atmosphere -->
+  <section id="atmosphere">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="en">ATMOSPHERE</div>
+        <h2>店内の様子</h2>
+        <div class="line"></div>
+      </div>
+      <div class="photos">
+        <div class="photo">
+          <img src="/interior-counter.png" alt="カウンター席" />
+          <span>ひとりでも気軽にカウンター席</span>
+        </div>
+        <div class="photo">
+          <img src="/interior-table.png" alt="テーブル席" />
+          <span>仲間と囲めるテーブル席</span>
+        </div>
+        <div class="photo">
+          <img src="/interior-neon.png" alt="お店の外観" />
+          <span>提灯が灯る、路地の入り口</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Availability -->
+  <section id="availability">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="en">RESERVATION</div>
+        <h2>空席状況</h2>
+        <div class="line"></div>
+      </div>
+      <div class="cal">
+        <table>
+          <thead>
+            <tr>
+              <th>火</th><th>水</th><th>木</th><th>金</th>
+              <th class="sat">土</th><th class="sun">日</th><th>月</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mark-o">◎</span></td>
+              <td><span class="mark-o">◎</span></td>
+              <td><span class="mark-t">△</span></td>
+              <td><span class="mark-t">TEL</span></td>
+              <td class="sat"><span class="mark-t">△</span></td>
+              <td><span class="mark-x">休</span></td>
+              <td><span class="mark-o">◎</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="legend">
+        <span><span class="mark-o">◎</span> 空席あり</span>
+        <span><span class="mark-t">△</span> 残りわずか</span>
+        <span><span class="mark-t">TEL</span> お電話で確認</span>
+        <span><span class="mark-x">休</span> 定休日（日・祝翌日）</span>
+      </div>
+      <div style="text-align:center; margin-top:26px;">
+        <a class="btn btn-primary" href="tel:09095453794">お電話でご予約 090-9545-3794</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Store info -->
+  <section id="info" style="background:#efe4ce;">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="en">INFORMATION</div>
+        <h2>店舗情報</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-grid">
+        <div>
+          <table class="spec">
+            <tr><th>店名</th><td>Booze Yu-Ha（ブーズ ユーハ）</td></tr>
+            <tr><th>住所</th><td>〒140-0004<br />東京都品川区南品川1-4-23</td></tr>
+            <tr><th>アクセス</th><td>京急本線「新馬場駅」より約315m（徒歩4分）</td></tr>
+            <tr><th>電話</th><td>090-9545-3794</td></tr>
+            <tr><th>席数</th><td>15席（カウンター・テーブル）</td></tr>
+          </table>
+        </div>
+        <div>
+          <table class="spec">
+            <tr>
+              <th>営業時間</th>
+              <td>
+                火〜金：11:00-15:00 / 18:00-24:00<br />
+                土・祝前日：11:00-15:00 / 18:00-24:00<br />
+                <small>（料理 L.O. 23:00 / ドリンク L.O. 23:30）</small>
+              </td>
+            </tr>
+            <tr><th>定休日</th><td>日曜・祝日の翌日</td></tr>
+            <tr><th>お支払い</th><td>現金・各種カード・電子マネー・QRコード決済</td></tr>
+            <tr><th>その他</th><td>ランチ・お弁当販売あり／土・祝は昼飲みOK／お子様連れ歓迎</td></tr>
+            <tr><th>Instagram</th><td><a href="https://instagram.com/booze_yu_ha" style="color:var(--secondary);font-weight:700;">@booze_yu_ha</a></td></tr>
+          </table>
+        </div>
+      </div>
+      <iframe class="map" style="margin-top:28px;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%93%81%E5%B7%9D%E5%8C%BA%E5%8D%97%E5%93%81%E5%B7%9D1-4-23&output=embed"
+        title="Booze Yu-Ha の地図"></iframe>
+    </div>
+  </section>
+
+  <!-- Reserve -->
+  <section id="reserve" class="reserve">
+    <div class="wrap">
+      <h2>ご予約・お問い合わせ</h2>
+      <p>ご宴会・貸切のご相談もお気軽に。まずはお電話ください。</p>
+      <div class="reserve-cta">
+        <a class="btn btn-primary" href="tel:09095453794">090-9545-3794</a>
+        <a class="btn btn-outline" style="border-color:#fbeee2;color:#fbeee2;background:transparent;" href="https://instagram.com/booze_yu_ha">Instagram を見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div class="brand-f">Booze Yu-Ha</div>
+      <div class="links">
+        <a href="#menu">お品書き</a>
+        <a href="#info">店舗情報</a>
+        <a href="#reserve">ご予約</a>
+      </div>
+      <p>東京都品川区南品川1-4-23 ／ 京急本線 新馬場駅 徒歩4分</p>
+      <p style="margin-top:8px;opacity:.7;">© 2025 Booze Yu-Ha. サンプルデザイン</p>
+    </div>
+  </footer>
+</body>
+</html>
